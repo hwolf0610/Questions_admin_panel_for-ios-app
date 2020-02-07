@@ -24,6 +24,9 @@ let question = new Schema({
     },
     correct:{
         type:String
+    },
+    createDate:{
+        type:String
     }
 });
 module.exports = mongoose.model('question', question);

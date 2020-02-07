@@ -16,6 +16,7 @@ let Plan = require('./plan.model');
 let User = require('./todo.model');
 let Category = require('./category.model');
 let Question = require('./question.model');
+let Scores = require('./scores.model');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,6 +30,84 @@ const connection = mongoose.connection;
 connection.once('open', function () {
     console.log("MongoDB database connection established successfully");
 })
+
+todoRoutes.route('/scoresshow').post(function (req, res) {
+    //   console.log('request:  ', req);
+    Scores.find(function (err, aaddresponsea) {
+        if (err) {
+            res.status(401).json({
+                'status': 401,
+                'message': 'failed',
+                'data': " "
+            });
+        } else {
+            res.status(200).json({
+                'status': 200,
+                'message': 'success',
+                'data': aaddresponsea
+            });
+
+
+        }
+    });
+});
+
+todoRoutes.route('/scoresadd').post(function (req, res) {
+    console.log("request : ", req.body)
+    if (req.body.name != null && req.body.category != null && req.body.email != null && req.body.scores != null && req.body.cretedates != null) {
+        let scores = new Scores(req.body);
+        scores.save()
+            .then(todo => {
+                res.status(200).json({
+                    'status': 200,
+                    'message': 'todo added successfully',
+                    'data': 'successfully'
+                });
+            })
+            .catch(err => {
+                res.status(403).json({
+                    'status': 403,
+                    'message': 'todo added failed',
+                    'data': 'flase'
+                });
+            });
+    } else {
+        res.status(400).json({
+            'status': 400,
+            'message': 'please input all field or correct value',
+            'data': 'flase'
+        });
+    }
+});
+
+todoRoutes.route('/scoresdelete').post(
+    function (req, res) {
+        if (req.body.key != null) {
+            let key = req.body.key
+            console.log(key);
+            Scores.deleteOne({ _id: key }, function (err, scores) {
+                if (err) {
+                    res.status(401).json({
+                        'status': 401,
+                        'message': 'Do not exist data',
+                        'data': " "
+                    });
+                } else {
+                    res.status(200).json({
+                        'status': 200,
+                        'message': 'todo Updated successfully',
+                        'data': scores
+                    });
+                }
+            })
+        } else {
+            res.status(400).json({
+                'status': 400,
+                'message': 'please input all field or correct value',
+                'data': " "
+            });
+        }
+    });
 
 todoRoutes.route('/categoryadd').post(function (req, res) {
     console.log("request : ", req.body)
@@ -56,22 +135,21 @@ todoRoutes.route('/categoryadd').post(function (req, res) {
             'data': 'flase'
         });
     }
-
 });
 
-todoRoutes.route('/categoryshow').get(function (req, res) {
+todoRoutes.route('/categoryshow').post(function (req, res) {
     //   console.log('request:  ', req);
     Category.find(function (err, aaddresponsea) {
         if (err) {
             res.status(401).json({
                 'status': 401,
-                'message': 'todo failed',
+                'message': 'failed',
                 'data': " "
             });
         } else {
             res.status(200).json({
                 'status': 200,
-                'message': 'todo added successfully',
+                'message': 'success',
                 'data': aaddresponsea
             });
 
@@ -82,9 +160,8 @@ todoRoutes.route('/categoryshow').get(function (req, res) {
 
 todoRoutes.route('/categoryupdate').post(function (req, res) {
     console.log("request : ", req.body)
-
-    if (req.body._id != null && req.body.name != null && req.body.flag != null) {
-        let key = req.body._id
+    if (req.body.key != null && req.body.name != null && req.body.flag != null) {
+        let key = req.body.key
         Category.findById(key, function (err, category) {
             if (err) {
                 res.status(401).json({
@@ -104,7 +181,6 @@ todoRoutes.route('/categoryupdate').post(function (req, res) {
                     });
                 });
             }
-
         });
     } else {
         res.status(400).json({
@@ -113,13 +189,13 @@ todoRoutes.route('/categoryupdate').post(function (req, res) {
             'data': " "
         });
     }
-
 });
 
-todoRoutes.route('/categorydelete').delete(
+
+todoRoutes.route('/categorydelete').post(
     function (req, res) {
-        if (req.body._id != null) {
-            let key = req.body._id
+        if (req.body.key != null) {
+            let key = req.body.key
             console.log(key);
             Category.deleteOne({ _id: key }, function (err, category) {
                 if (err) {
@@ -135,7 +211,6 @@ todoRoutes.route('/categorydelete').delete(
                         'data': category
                     });
                 }
-
             })
         } else {
             res.status(400).json({
@@ -144,7 +219,6 @@ todoRoutes.route('/categorydelete').delete(
                 'data': " "
             });
         }
-
     });
 
 // todoRoutes.route('/categoryupdate/:id').post(function (req, res) {
@@ -173,7 +247,7 @@ todoRoutes.route('/categorydelete').delete(
 
 todoRoutes.route('/questionadd').post(function (req, res) {
     console.log("request : ", req.body)
-    if (req.body.categoryid != null && req.body.desc != null && req.body.answer1 != null && req.body.answer2 != null && req.body.answer3 != null && req.body.answer4 != null && req.body.grade != null && req.body.correct != null) {
+    if (req.body.categoryid != null && req.body.desc != null && req.body.answer1 != null && req.body.answer2 != null && req.body.answer3 != null && req.body.answer4 != null && req.body.grade != null && req.body.correct != null && req.body.createDate != null) {
         let question = new Question(req.body);
         question.save()
             .then(todo => {
@@ -221,8 +295,8 @@ todoRoutes.route('/questionshow').get(function (req, res) {
 
 todoRoutes.route('/questionupdate').post(function (req, res) {
     console.log("request : ", req.body)
-    if (req.body._id != null && req.body.categoryid != null && req.body.desc != null && req.body.answer1 != null && req.body.answer2 != null && req.body.answer3 != null && req.body.answer4 != null && req.body.grade != null && req.body.correct != null) {
-        let key = req.body._id
+    if (req.body.key != null && req.body.categoryid != null && req.body.desc != null && req.body.answer1 != null && req.body.answer2 != null && req.body.answer3 != null && req.body.answer4 != null && req.body.grade != null && req.body.correct != null) {
+        let key = req.body.key
         Question.findById(key, function (err, question) {
             if (err) {
                 res.status(401).json({
@@ -260,10 +334,10 @@ todoRoutes.route('/questionupdate').post(function (req, res) {
 
 });
 
-todoRoutes.route('/questiondelete').delete(
+todoRoutes.route('/questiondelete').post(
     function (req, res) {
-        if (req.body._id != null) {
-            let key = req.body._id
+        if (req.body.key != null) {
+            let key = req.body.key
             console.log(key);
             Question.deleteOne({ _id: key }, function (err, question) {
                 if (err) {
