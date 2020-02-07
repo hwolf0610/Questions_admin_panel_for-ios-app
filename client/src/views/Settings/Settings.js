@@ -19,16 +19,16 @@ const Settings = () => {
         container
         spacing={4}
       >
-        <Grid
+        {/* <Grid
           item
-          md={7}
+          md={12}
           xs={12}
         >
           <Notifications />
-        </Grid>
+        </Grid> */}
         <Grid
           item
-          md={5}
+          md={12}
           xs={12}
         >
           <Password />

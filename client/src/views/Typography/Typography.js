@@ -41,24 +41,26 @@ export default class Typography extends React.Component {
       year = curyear.getFullYear();
     var curday = new Date(),
       days = curday.getDay();
+    var ts = new Date();
 
     this.state = {
       date: year + "-" + date + "-" + days,
       month: '',
       flag: '',
-      week:'',
+      week: '',
       year: '',
       name: '',
       detail: '',
       price: '',
       dataList: [],
       dataname: [],
-      showkind:['month','week'],
+      showkind: ['month', 'week'],
       offset: 0,
       buttontext: localStorage.getItem("word12"),
       pagercounter: 0,
       userid: '',
       selectedDate: new Date(),
+      createDate: ts.getDay() + "/" + ts.getMonth() + "/" + ts.getFullYear() + " " + ts.toLocaleTimeString(ts.getTime()),
 
     }
 
@@ -70,111 +72,101 @@ export default class Typography extends React.Component {
 
   }
   componentDidMount = () => {
-    axios.post('/todos/showplan')
+    axios.post(localStorage.getItem("url") + '/todos/scoresshow')
       .then((res) => {
-        if (res.data.length > 0)
-          this.setState({ dataList: res.data })
-
-        let counter = res.data.length;
+        if (res.data.data.length > 0)
+          this.setState({ dataList: res.data.data })
+        console.log("my category:", this.state.dataList)
+        console.log("my callback:", res.data.data)
+        let counter = res.data.data.length;
         if (counter < 10) {
           this.setState({ pagercounter: 1 })
         } else {
           this.setState({ pagercounter: counter / 10 })
         }
-
       }).catch((error) => {
         console.log(error)
       });
 
-    axios.post('/todos/show')
-      .then((res) => {
-        let { dataname } = this.state
-        if (res.data.length > 0)
-          dataname = res.data
-        this.setState({ dataname })
-        this.update_data_bar()
-      }).catch((error) => {
-        console.log(error)
-      });
 
   }
 
 
-  handleClick(offset) {
-    this.setState({ offset });
-    console.log("offset:", offset)
-  }
+  // handleClick(offset) {
+  //   this.setState({ offset });
+  //   console.log("offset:", offset)
+  // }
 
-  update_data_bar = () => {
-    let { dataname, showname } = this.state
-    let barData1 = []
-    dataname.map(item => {
-      barData1.push(item.name)
-    })
-    showname = barData1
-    this.setState({ dataname, showname })
+  // update_data_bar = () => {
+  //   let { dataname, showname } = this.state
+  //   let barData1 = []
+  //   dataname.map(item => {
+  //     barData1.push(item.name)
+  //   })
+  //   showname = barData1
+  //   this.setState({ dataname, showname })
 
-  }
+  // }
 
-  onSignup = () => {
-    if (this.state.buttontext == localStorage.getItem("word12")) {
-      // if (this.state.password === this.state.confirm) {
-      let body = {  week: this.state.week,month: this.state.month, year: this.state.year, name: this.state.name, detail: this.state.detail, price: this.state.price, flag: this.state.flag }
-      axios.post(localStorage.getItem("url") + '/todos/planadd', body)
-        .then((res) => {
-          console.log(res.data)
-          alert("Successful!!");
-          window.location.reload();
-        }).catch((error) => {
-          console.log(error)
-        });
+  // onSignup = () => {
+  //   if (this.state.buttontext == localStorage.getItem("word12")) {
+  //     // if (this.state.password === this.state.confirm) {
+  //     let body = {  week: this.state.week,month: this.state.month, year: this.state.year, name: this.state.name, detail: this.state.detail, price: this.state.price, flag: this.state.flag }
+  //     axios.post(localStorage.getItem("url") + '/todos/planadd', body)
+  //       .then((res) => {
+  //         console.log(res.data)
+  //         alert("Successful!!");
+  //         window.location.reload();
+  //       }).catch((error) => {
+  //         console.log(error)
+  //       });
 
 
-      this.setState({
-        month: '',
-        year: '',
-        name: '',
-        detail: '',
-        price: '',
-      })
-    } else {
-      let id = this.state.userid
-      let body = {  week: this.state.week,month: this.state.month, year: this.state.year, name: this.state.name, detail: this.state.detail, price: this.state.price, flag: this.state.flag }
-      console.log("body:", body)
-      axios.post(localStorage.getItem("url") + '/todos/planupdate/' + id, body)
-        .then((res) => {
-          console.log(res.data)
-          alert("Successful!!");
-          window.location.reload();
-        }).catch((error) => {
-          console.log(error)
-        });
-    }
+  //     this.setState({
+  //       month: '',
+  //       year: '',
+  //       name: '',
+  //       detail: '',
+  //       price: '',
+  //     })
+  //   } else {
+  //     let id = this.state.userid
+  //     let body = {  week: this.state.week,month: this.state.month, year: this.state.year, name: this.state.name, detail: this.state.detail, price: this.state.price, flag: this.state.flag }
+  //     console.log("body:", body)
+  //     axios.post(localStorage.getItem("url") + '/todos/planupdate/' + id, body)
+  //       .then((res) => {
+  //         console.log(res.data)
+  //         alert("Successful!!");
+  //         window.location.reload();
+  //       }).catch((error) => {
+  //         console.log(error)
+  //       });
+  //   }
 
-    axios.post('/todos/showplan')
-      .then((res) => {
+  //   axios.post('/todos/showplan')
+  //     .then((res) => {
 
-        if (res.data.length > 0)
-          this.setState({ dataList: res.data })
+  //       if (res.data.length > 0)
+  //         this.setState({ dataList: res.data })
 
-        let totalplan = 0;
+  //       let totalplan = 0;
 
-        this.state.dataList.map((item, index) => {
-          totalplan += item.price * 1.0;
+  //       this.state.dataList.map((item, index) => {
+  //         totalplan += item.price * 1.0;
 
-        })
-        console.log("totalplan:", totalplan)
-        localStorage.setItem("totalplan", totalplan)
+  //       })
+  //       console.log("totalplan:", totalplan)
+  //       localStorage.setItem("totalplan", totalplan)
 
-      }).catch((error) => {
-        console.log(error)
-      });
+  //     }).catch((error) => {
+  //       console.log(error)
+  //     });
 
-  }
+  // }
   delete = (data) => {
     alert("item clicked : " + data)
-    let id = data
-    axios.delete(localStorage.getItem("url") + '/todos/plandelete/' + id)
+    let key = { key: data }
+    axios.post(localStorage.getItem("url") + '/todos/scoresdelete/', key)
       .then((res) => {
         console.log(res.data)
         alert("Successful_del!!");
@@ -183,78 +175,65 @@ export default class Typography extends React.Component {
         console.log(error)
       });
   }
-  updatename = (e) => {
-    // console.log("update name : ", e)
-    this.setState({ name: e })
 
-  }
-  updatedetail = (e) => { this.setState({ detail: e.target.value }) }
-  updateflag = (e) => { this.setState({ flag: e }) }
-  updateprice = (e) => { this.setState({ price: e.target.value }) }
-  setdate = (e) => {
-    this.setState({ date: e.target.value })
-    let setday = e.target.value
-    let mid = setday.split('-')
-    // this.setState({ day: mid[2] })
-    this.setState({ month: mid[1] })
-    this.setState({ year: mid[0] })
+  //   updatename = (e) => {    
+  //     this.setState({ name: e })
+  //   }
+  //   updatedetail = (e) => { this.setState({ detail: e.target.value }) }
+  //   updateflag = (e) => { this.setState({ flag: e }) }
+  //   updateprice = (e) => { this.setState({ price: e.target.value }) }
+  //   setdate = (e) => {
+  //     this.setState({ date: e.target.value })
+  //     let setday = e.target.value
+  //     let mid = setday.split('-')
+  //     // this.setState({ day: mid[2] })
+  //     this.setState({ month: mid[1] })
+  //     this.setState({ year: mid[0] })
 
-    console.log("date:", this.state.date)
-  }
+  //     console.log("date:", this.state.date)
+  //   }
 
-  setSelectedDate = date => {
-    this.setState({ selectedDate: date })
-  }
-  updateitem = (dataid,dataweek,dataflag, datamonth, datayear, dataname, datadetail, dataprice) => {
-    this.setState({ month: datamonth })
-    this.setState({ flag: dataflag })
-    this.setState({ week: dataweek })
-    this.setState({ year: datayear })
-    this.setState({ name: dataname })
-    this.setState({ detail: datadetail })
-    this.setState({ price: dataprice })
-    this.setState({ buttontext: localStorage.getItem("word13") })
-    this.setState({ userid: dataid })
+  //   setSelectedDate = date => {
+  //     this.setState({ selectedDate: date })
+  //   }
+  //   updateitem = (dataid,dataweek,dataflag, datamonth, datayear, dataname, datadetail, dataprice) => {
+  //     this.setState({ month: datamonth })
+  //     this.setState({ flag: dataflag })
+  //     this.setState({ week: dataweek })
+  //     this.setState({ year: datayear })
+  //     this.setState({ name: dataname })
+  //     this.setState({ detail: datadetail })
+  //     this.setState({ price: dataprice })
+  //     this.setState({ buttontext: localStorage.getItem("word13") })
+  //     this.setState({ userid: dataid })
 
-    this.setState({ selectedDate:  datamonth + "/"+"30/"+ datayear}) 
-    
+  //     this.setState({ selectedDate:  datamonth + "/"+"30/"+ datayear})    
+  //   }
+  //   getNumberOfWeek= date => {
+  //     const today = new Date(date);
+  //     const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+  //     const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
+  //     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  // }
+  //   handleDateChange = date => {
+  //     this.setSelectedDate(date);
+  //     console.log("data:", this.state.selectedDate)
+  //     var d = new Date(date);
+  //     var realdate = (d.getUTCMonth() + 1 * 1.0) + "/" + d.getUTCDate() + "/" + d.getUTCFullYear();
+  //     this.setState({ date: realdate })
+  //     this.setState({ month: d.getUTCMonth() + 1 * 1.0 })
+  //     this.setState({ year: d.getUTCFullYear() })
 
-    // alert("item clicked : " + data)
-    // let id = data
-    // axios.delete(localStorage.getItem("url")+'/todos/userdelete/' + id)
-    //   .then((res) => {
-    //     console.log(res.data)
-    //     alert("Successful_del!!");
-    //     window.location.reload();
-    //   }).catch((error) => {
-    //     console.log(error)
-    //   });
-  }
-  getNumberOfWeek= date => {
-    const today = new Date(date);
-    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-}
-  handleDateChange = date => {
-    this.setSelectedDate(date);
-    console.log("data:", this.state.selectedDate)
-    var d = new Date(date);
-    var realdate = (d.getUTCMonth() + 1 * 1.0) + "/" + d.getUTCDate() + "/" + d.getUTCFullYear();
-    this.setState({ date: realdate })
-    this.setState({ month: d.getUTCMonth() + 1 * 1.0 })
-    this.setState({ year: d.getUTCFullYear() })
-    
-    // alert(this.state.data)
+  //     // alert(this.state.data)
 
-    let weekly = this.getNumberOfWeek(date) 
-    console.log("weekly:", weekly)
+  //     let weekly = this.getNumberOfWeek(date) 
+  //     console.log("weekly:", weekly)
 
-    this.setState({ week: weekly })
+  //     this.setState({ week: weekly })
 
 
 
-  };
+  //   };
 
   render() {
     return (
@@ -265,120 +244,71 @@ export default class Typography extends React.Component {
         >
           <Grid
             item
-            md={4}
+            md={12}
             xs={12}
           >
+            <h2>Scores</h2>
+          </Grid>
+        </Grid>
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
-              <Grid container justify="space-around">
-
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  label="Please select date"
-                  value={this.state.selectedDate}
-                  onChange={this.handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-
-              </Grid>
-
-            </MuiPickersUtilsProvider>
-
-            {/* <TextField
-              id="date"
-              label="Date"
-              type="date"
-              onChange={this.setdate}
-              defaultValue={this.state.date}
-              // className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            /> */}
+        {/* {this.state.createDate}dfg */}
+        {/* <Grid
+          container
+          spacing={3}
+        >
+           <Grid
+            item
+            md={2}
+            xs={12}
+          >
+            <TextField
+              fullWidth
+              label="Customer Name"
+              margin="dense"
+              name="email"
+              onChange={this.updateclientname}
+              required
+              value={this.state.clientname}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            md={2}
+            xs={12}
+          >
+           <SingleSelect value={this.state.name} placeholder="--Category--" required options={this.state.showname} onChange={this.updatename} />
           </Grid>
           <Grid
             item
             md={1}
             xs={12}
           >
-            <SingleSelect value={this.state.flag} placeholder="Select a kind" options={this.state.showkind} onChange={this.updateflag} />             
-          </Grid>
-          <Grid
-            item
-            md={3}
-            xs={12}
-          >
-            <SingleSelect value={this.state.name} placeholder="Select a name" options={this.state.showname} onChange={this.updatename} />
-
-            {/* <TextField
-              fullWidth
-              label="Name"
-              margin="dense"
-              name="email"
-              onChange={this.updatename}
-              required
-              value={this.state.name}
-              variant="outlined"
-              helperText="Please input name"
-            /> */}
-          </Grid>
-          <Grid
-            item
-            md={4}
-            xs={12}
-          >
-            <TextField
-              fullWidth
-              label="plan price"
-              margin="dense"
-              name="email"
-              type="number"
-              onChange={this.updateprice}
-              required
-              value={this.state.price}
-              variant="outlined"
-              helperText="Please input price"
-            />
-
-          </Grid>
-          <Grid
-            item
-            md={12}
-            xs={12}
-          >
-            <TextField
-              fullWidth
-              label="Detail"
-              margin="dense"
-              name="phone"
-              onChange={this.updatedetail}
-              type="email"
-              value={this.state.detail}
-              variant="outlined"
-            />
-          </Grid>
-
-
-
-
-        </Grid>
-
-        <CardActions>
           <Button
             color="primary"
             variant="contained"
-            onClick={this.onSignup}
+            onClick={this.onAddjob}
           >
-            {this.state.buttontext}
+           Search
           </Button>
-        </CardActions>
+          </Grid>
+          <Grid
+            item
+            md={1}
+            xs={12}
+          >
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={this.onAddjob}
+          >
+            Clear
+          </Button>
+          </Grid>
+
+
+        </Grid> */}
+        <br />
         <Table
           // className={classes.table}
           aria-labelledby="tableTitle"
@@ -392,28 +322,22 @@ export default class Typography extends React.Component {
                 <span>No</span>
               </TableCell>
               <TableCell padding="checkbox">
-                <span>kind</span>
-              </TableCell>
-              <TableCell padding="checkbox">
-                <span>week</span>
-              </TableCell>              
-              <TableCell padding="checkbox">
-                <span>Month</span>
-              </TableCell>
-              <TableCell padding="checkbox">
-                <span>Year</span>
-              </TableCell>
-              <TableCell padding="checkbox">
                 <span>Name</span>
               </TableCell>
               <TableCell padding="checkbox">
-                <span>Detail</span>
+                <span>Category</span>
               </TableCell>
               <TableCell padding="checkbox">
-                <span>Plan Price</span>
+                <span>Email</span>
               </TableCell>
               <TableCell padding="checkbox">
-                <span>Delete</span>
+                <span>Score</span>
+              </TableCell>
+              <TableCell padding="checkbox">
+                <span>Date Added</span>
+              </TableCell>
+              <TableCell padding="checkbox">
+                <span>Action</span>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -424,46 +348,39 @@ export default class Typography extends React.Component {
               this.state.dataList.map((item, index) => {
                 let start = this.state.offset * 10 - 1
                 let end = this.state.offset * 10 + 10
-
                 while (start < index && index < end) {
-
-
                   return (
                     <TableRow
                       hover
                       tabIndex={-1}
                       key={index}
-                      onClick={this.updateitem.bind(this, item._id, item.week,item.flag, item.month, item.year, item.name, item.detail, item.price)}
                     >
                       <TableCell padding="checkbox">
                         <span>{index + 1}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <span>{item.flag}</span>
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <span>{item.week}</span>
-                      </TableCell>                     
-                      <TableCell padding="checkbox">
-                        <span>{item.month}</span>
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <span>{item.year}</span>
-                      </TableCell>
-                      <TableCell padding="checkbox">
                         <span>{item.name}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <span>{item.detail}</span>
+                        <span>{item.category}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <span>{item.price}</span>
+                        <span>{item.email}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Button
-                          onClick={this.delete.bind(this, item._id)}
-                        >Delete
-                                                        </Button>
+                        <span>{item.scores}</span>
+                      </TableCell>
+                      <TableCell padding="checkbox">
+                        <span>{item.cretedates}</span>
+                      </TableCell>
+                      <TableCell padding="checkbox">
+                        <CardActions>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            onClick={this.delete.bind(this, item._id)}
+                          >  Delete </Button>
+                        </CardActions>
                       </TableCell>
                     </TableRow>
                   )

@@ -45,54 +45,60 @@ const Sidebar = props => {
 
   const pages = [
     {
-      title: 'Dashboard',
+      title: localStorage.getItem("word19"),
       href: '/dashboard',
       role:['1', '2'],
       icon: <DashboardIcon />
     },
     {
-      title: localStorage.getItem("word5"),
+      title: localStorage.getItem("word20"),
       href: '/users',
       role:['2'],
-      icon: <PeopleIcon />
+      icon: <TextFieldsIcon />
     },
     {
-      title: localStorage.getItem("word6"),
+      title: localStorage.getItem("word21"),
       href: '/products',
       role:['2'],
-      icon: <ShoppingBasketIcon />
-    },{
-        title: localStorage.getItem("word7"),
+      icon: <TextFieldsIcon />
+    },
+    {
+        title: localStorage.getItem("word22"),
         href: '/typography',
         role:['2'],
-        icon: <TextFieldsIcon />
+        icon: <PeopleIcon />
       },
+      // {
+      //   title: 'Account',
+      //   href: '/account',
+      //   role:['1' , '2'],
+      //   icon: <AccountBoxIcon />
+      // },
+      // {
+      //   title: localStorage.getItem("word23"),
+      //   href: '/settings',
+      //   role:['1' , '2'],
+      //   icon: <SettingsIcon />
+      // },
     // {
-    //   title: localStorage.getItem("word15"),
+    //   title: 'Settings',
     //   href: '/icons',
-    //   role:['1'],
+    //   role:['1' , '2'],
     //   icon: <ImageIcon />
     // },
     // {
     //   title: 'Typography',
     //   href: '/typography',
+    //   role:['1' , '2'],
     //   icon: <TextFieldsIcon />
     // },
     // {
     //   title: 'Icons',
     //   href: '/icons',
+    //   role:['1' , '2'],
     //   icon: <ImageIcon />
-    // },
-    // {
-    //   title: 'Account',
-    //   href: '/account',
-    //   icon: <AccountBoxIcon />
-    // },
-    // {
-    //   title: 'Settings',
-    //   href: '/settings',
-    //   icon: <SettingsIcon />
     // }
+    
   ];
 
   return (

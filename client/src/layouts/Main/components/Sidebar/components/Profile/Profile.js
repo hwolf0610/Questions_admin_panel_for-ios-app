@@ -37,7 +37,7 @@ const Profile = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <Avatar
+      {/* <Avatar
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
@@ -50,7 +50,7 @@ const Profile = props => {
       >
         {user.name}
       </Typography>
-      <Typography variant="body2">{user.bio}</Typography>
+      <Typography variant="body2">{user.bio}</Typography> */}
     </div>
   );
 };

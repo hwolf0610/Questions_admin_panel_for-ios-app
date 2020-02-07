@@ -11,6 +11,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
+import dotenv from  'dotenv'
 
 const browserHistory = createBrowserHistory();
 
@@ -35,9 +36,9 @@ export default class App extends Component {
     localStorage.setItem("word5", "User Manage");
     localStorage.setItem("word6", "Quality Manage");
     localStorage.setItem("word7", "Plan Manage");
-    localStorage.setItem("word8", "User add");
-    localStorage.setItem("word9", "Edit User Info");
-    localStorage.setItem("word10", "Quality add");
+    localStorage.setItem("word8", "Add Category");
+    localStorage.setItem("word9", "Edit Category");
+    localStorage.setItem("word10", "Add Question");
     localStorage.setItem("word11", "Edit Quailty");
     localStorage.setItem("word12", "Plan add");
     localStorage.setItem("word13", "Edit Plan");
@@ -46,6 +47,15 @@ export default class App extends Component {
     localStorage.setItem("word16", "Week Quality chart");
     localStorage.setItem("word17", "personal quality");
     localStorage.setItem("word18", "Month quality chart");
+
+    localStorage.setItem("word19", "Dashboard");
+    localStorage.setItem("word20", "Categories");
+    localStorage.setItem("word21", "Questions");
+    localStorage.setItem("word22", "Manage Socres");
+    localStorage.setItem("word23", "Setting");
+    localStorage.setItem("word24", "Enabled");
+    localStorage.setItem("word25", "disabled");
+    localStorage.setItem("pass", "admin");
     return (
       <ThemeProvider theme={theme}>
         <Router history={browserHistory}>

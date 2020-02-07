@@ -29,7 +29,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-
+// import Homeimg from "../../../../../public/images/logos/blacklogo2.png"
 const theme = createMuiTheme();
 
 export default class MakePlan extends React.Component {
@@ -205,7 +205,7 @@ export default class MakePlan extends React.Component {
 
   render() {
     return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '20px' ,marginLeft:'-5px'}}>
         <CardContent style={{ fontSize: '15px', height: '600px', backgroundColor: 'white', border: '3px solid #e7e9eb' }}>
           <Grid
             container
@@ -213,177 +213,27 @@ export default class MakePlan extends React.Component {
           >
             <Grid
               item
-              md={4}
+              md={12}
               xs={12}
             >
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Please select date"
-                    value={this.state.selectedDate}
-                    onChange={this.handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid
-              item
-              md={4}
-              xs={12}
-            >
-               <SingleSelect value={this.state.flag} placeholder="Select a kind" options={this.state.showkind} onChange={this.updateflag} />    
-
-            </Grid>
-            <Grid
-              item
-              md={4}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="plan price"
-                margin="dense"
-                name="email"
-                type="number"
-                onChange={this.updateprice}
-                required
-                value={this.state.price}
-                variant="outlined"
-                helperText="Please input price"
-              />
-
+              <h2>Dashboard</h2>
+                
             </Grid>
             <Grid
               item
               md={12}
               xs={12}
+              spacing={2}
             >
-              <TextField
-                fullWidth
-                label="Detail"
-                margin="dense"
-                name="phone"
-                onChange={this.updatedetail}
-                type="email"
-                value={this.state.detail}
-                variant="outlined"
-              />
+              {/* style={{backgroundColor:"#d7d7c1"}} */}
+              <div >
+              <img src="/images/logos/home.png" style={{width:'3%'}}/>
+               <h2>Home</h2> 
+              </div>
+               
+
             </Grid>
-
-
-
-
-          </Grid>
-
-          <CardActions>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={this.onSignup}
-            >
-              {this.state.buttontext}
-            </Button>
-          </CardActions>
-          <Table
-            // className={classes.table}
-            aria-labelledby="tableTitle"
-            size={'medium'}
-            aria-label="enhanced table"
-          >
-
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <span>Kind</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Week</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Month</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Year</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Detail</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Plan Price</span>
-                </TableCell>
-                <TableCell padding="checkbox">
-                  <span>Delete</span>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {
-
-                this.state.dataList.map((item, index) => {
-                  let start = this.state.offset * 10 - 1
-                  let end = this.state.offset * 10 + 10
-                  let number = 0;
-                  while (start < index && index < end && item.name == localStorage.getItem("name")) {
-                    number = number + 1 * 1.0;
-                    return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={index}
-                      >
-                       <TableCell padding="checkbox">
-                          <span>{item.flag}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <span>{item.week}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <span>{item.month}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <span>{item.year}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <span>{item.detail}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <span>{item.price}</span>
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <Button
-                            onClick={this.delete.bind(this, item._id)}
-                          >Delete
-                                                        </Button>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  }
-
-                })
-
-
-              }
-
-            </TableBody>
-          </Table>
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <Pagination
-              limit={1}
-              offset={this.state.offset}
-              total={this.state.pagercounter}
-              onClick={(e, offset) => this.handleClick(offset)}
-            />
-          </MuiThemeProvider>
+            </Grid>
         </CardContent>
       </div>
     );

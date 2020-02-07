@@ -14,7 +14,7 @@ import {
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+import dotenv from  'dotenv'
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -34,14 +34,14 @@ export default class SignIn extends React.Component {
     
   }
   componentDidMount = () => {
-    let body = { name: 'admin', birthday: '6/10/1996', address: 'dandong', phonenumber: '1993836374', email: 'admin@outlook.com', password: 'admin', flag: '1' }
-    axios.post(localStorage.getItem("url")+'/todos/start', body)
-      .then((res) => {
-        console.log(res.data)
-        // alert("Successful!!");
-      }).catch((error) => {
-        console.log(error)
-      });
+    // let body = { name: 'admin', birthday: '6/10/1996', address: 'dandong', phonenumber: '1993836374', email: 'admin@outlook.com', password: 'admin', flag: '1' }
+    // axios.post(localStorage.getItem("url")+'/todos/start', body)
+    //   .then((res) => {
+    //     console.log(res.data)
+    //     // alert("Successful!!");
+    //   }).catch((error) => {
+    //     console.log(error)
+    //   });
 
     //   let body = { month: this.state.month, day: this.state.day, year: this.state.year, name: this.state.name, clientname: this.state.clientname, price: this.state.price }
     // axios.post(localStorage.getItem("url")+'/todos/working', body)
@@ -55,24 +55,24 @@ export default class SignIn extends React.Component {
 
 
 
-      axios.post('/todos/showplan')
-      .then((res) => {
+      // axios.post('/todos/showplan')
+      // .then((res) => {
         
-        if (res.data.length > 0)
-          this.setState({ dataList: res.data })        
+      //   if (res.data.length > 0)
+      //     this.setState({ dataList: res.data })        
 
-          let totalplan = 0;
+      //     let totalplan = 0;
 
-      this.state.dataList.map((item, index) => {
-        totalplan += item.price * 1.0;
+      // this.state.dataList.map((item, index) => {
+      //   totalplan += item.price * 1.0;
       
-      })
-      console.log("totalplan:",totalplan)
-      localStorage.setItem("totalplan", totalplan)
+      // })
+      // console.log("totalplan:",totalplan)
+      // localStorage.setItem("totalplan", totalplan)
 
-      }).catch((error) => {
-        console.log(error)
-      });
+      // }).catch((error) => {
+      //   console.log(error)
+      // });
 
       
   }
@@ -80,27 +80,34 @@ export default class SignIn extends React.Component {
   changeemail = (e) => { this.setState({ email: e.target.value }); }
   changepass = (e) => { this.setState({ password: e.target.value }); }
   onSignin = () => {
-    let body = { email: this.state.email, password: this.state.password }
-    axios.post(localStorage.getItem("url")+'/todos/login', body)
-      .then((res) => {
-        if (res.data.email[0].length > 0) {
-          localStorage.setItem("name",res.data.name);
-          if (res.data.flag == 1) {
-            localStorage.setItem("key", "2");
-          } else {
-            localStorage.setItem("key", "1");
-          }
-          window.location.href = "/dashboard";
-          // history.push('dashboard');
+    if (this.state.email == localStorage.getItem("pass") && this.state.email == localStorage.getItem("pass")) {
+      localStorage.setItem("key", "2");
+      window.location.href = "/dashboard";
+    } else {
+      alert("pease input correct info !!!")
+      console.log("localStorage:",localStorage.getItem("pass") )
+    }
+    // let body = { email: this.state.email, password: this.state.password }
+    // axios.post(localStorage.getItem("url")+'/todos/login', body)
+    //   .then((res) => {
+    //     if (res.data.email[0].length > 0) {
+    //       localStorage.setItem("name",res.data.name);
+    //       if (res.data.flag == 1) {
+    //         localStorage.setItem("key", "2");
+    //       } else {
+    //         localStorage.setItem("key", "1");
+    //       }
+    //       window.location.href = "/dashboard";
+    //       // history.push('dashboard');
 
-        } else {
-          alert("No member!");
-        }
-        console.log(res.data.email)
-      }).catch((error) => {
-        console.log(error)
-        alert("Wrong username or password!");
-      })
+    //     } else {
+    //       alert("No member!");
+    //     }
+    //     console.log(res.data.email)
+    //   }).catch((error) => {
+    //     console.log(error)
+    //     alert("Wrong username or password!");
+    //   })
     this.setState({ email: '', password: '' })
 
   }
