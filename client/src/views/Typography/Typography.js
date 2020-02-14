@@ -92,10 +92,10 @@ export default class Typography extends React.Component {
   }
 
 
-  // handleClick(offset) {
-  //   this.setState({ offset });
-  //   console.log("offset:", offset)
-  // }
+  handleClick(offset) {
+    this.setState({ offset });
+    console.log("offset:", offset)
+  }
 
   // update_data_bar = () => {
   //   let { dataname, showname } = this.state
@@ -230,10 +230,19 @@ export default class Typography extends React.Component {
   //     console.log("weekly:", weekly)
 
   //     this.setState({ week: weekly })
-
-
-
   //   };
+  timeConverter= (UNIX_timestamp) =>{
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+  }
 
   render() {
     return (
@@ -346,6 +355,26 @@ export default class Typography extends React.Component {
             {
 
               this.state.dataList.map((item, index) => {
+
+                let formattedTime =this.timeConverter(item.cretedates) 
+                // // Create a new JavaScript Date object based on the timestamp
+                // // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+                // var date = new Date(unix_timestamp * 1000);
+                // var year = date.getFullYear();
+                // var month = date.getUTCMonth()
+                // var day = date.getUTCDay()
+                // // Hours part from the timestamp
+                // var hours = date.getHours();
+                // // Minutes part from the timestamp
+                // var minutes = "0" + date.getMinutes();
+                // // Seconds part from the timestamp
+                // var seconds = "0" + date.getSeconds();
+
+                // // Will display time in 10:30:23 format
+                // var formattedTime =month+"/"+day+"/"+year+" "+ hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+                // console.log(formattedTime);
+
                 let start = this.state.offset * 10 - 1
                 let end = this.state.offset * 10 + 10
                 while (start < index && index < end) {
@@ -371,7 +400,7 @@ export default class Typography extends React.Component {
                         <span>{item.scores}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <span>{item.cretedates}</span>
+                        <span>{formattedTime}</span>
                       </TableCell>
                       <TableCell padding="checkbox">
                         <CardActions>

@@ -52,6 +52,60 @@ todoRoutes.route('/scoresshow').post(function (req, res) {
     });
 });
 
+todoRoutes.route('/scoresGlobalshow').post(function (req, res) {
+    //   console.log('request:  ', req);
+    Scores.aggregate(
+        [
+            {
+              $group:
+                {
+                    _id: "$category",
+                  scores: { $max: "$scores" }
+                }
+            }
+          ],
+        function (err, response) {
+        if (err) {
+            res.status(401).json({
+                'status': 401,
+                'message': 'failed',
+                'data': " "
+            });
+        } else {
+            // var swap = {}, cart = []
+            // swap["_id"] = aaddresponsea[0]._id
+            // swap["email"] = aaddresponsea[0].email
+            // swap["cretedates"] = aaddresponsea[0].cretedates
+            // swap["category"] = aaddresponsea[0].category
+            // swap["scores"] = aaddresponsea[0].scores
+            // swap["name"] = aaddresponsea[0].name
+            // cart.push(swap);            
+            // for (var i = 1; i < aaddresponsea.length; i++) {
+            //     for (var j = 0; j < i; j++) {
+            //         if (aaddresponsea[i].category = aaddresponsea[j].category && aaddresponsea[i].scores > aaddresponsea[j].scores) {
+            //             swap._id = aaddresponsea[i]._id
+            //             swap.email = aaddresponsea[i].email
+            //             swap.cretedates = aaddresponsea[i].cretedates
+            //             swap.category= aaddresponsea[i].category
+            //             swap.scores = aaddresponsea[i].scores
+            //             swap.name = aaddresponsea[i].name
+            //             cart.push(swap)
+            //         }
+            //     }
+            // }
+
+
+
+            console.log('response: ', response);
+            res.status(200).json({
+                'status': 200,
+                'message': 'success',
+                'data': response
+            });
+        }
+    });
+});
+
 todoRoutes.route('/scoresadd').post(function (req, res) {
     console.log("request : ", req.body)
     if (req.body.name != null && req.body.category != null && req.body.email != null && req.body.scores != null && req.body.cretedates != null) {

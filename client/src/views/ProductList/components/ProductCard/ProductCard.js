@@ -136,10 +136,10 @@ export default class ProductCard extends React.Component {
   updatCorrect = (e) => { this.setState({ correct: e }) }
 
 
-  // handleClick(offset) {
-  //   this.setState({ offset });
-  //   console.log("offset:", offset)
-  // }
+  handleClick(offset) {
+    this.setState({ offset });
+    console.log("offset:", offset)
+  }
 
   update_data_bar = () => {
     let { categoryData, showname } = this.state
