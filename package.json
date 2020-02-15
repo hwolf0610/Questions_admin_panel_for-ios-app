@@ -19,7 +19,7 @@
         "express-email": "^1.1.1",
         "mongoose": "^5.7.10",
         "nodemailer": "^6.3.1",
-        "yarn": "^1.21.1"
+        "yarn": "^1.22.0"
     },
     "devDependencies": {
         "concurrently": "^4.0.1"
