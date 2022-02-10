@@ -45,7 +45,7 @@
     "material-ui-password-field": "^2.1.0",
     "materialui-pagination": "0.0.6",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "rc-datepicker": "^5.0.15",
     "react": "^16.8.6",
